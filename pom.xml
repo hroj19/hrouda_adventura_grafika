@@ -15,7 +15,6 @@
     </properties>
 
     <dependencies>
-        <!-- zakomentovano, protoze JDK obsahuje javafx jine verze
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -26,7 +25,6 @@
             <artifactId>javafx-fxml</artifactId>
             <version>21</version>
         </dependency>
-        -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
