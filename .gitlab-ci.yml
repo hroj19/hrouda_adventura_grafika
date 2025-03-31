@@ -1,0 +1,10 @@
+image: maven:3.9-openjdk-
+
+sestaveni:
+  script:
+    - "mvn javafx:jlink -B"
+  artifacts:
+    paths:
+      - "target/*.zip"
+  only:
+    - master
