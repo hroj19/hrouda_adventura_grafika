@@ -2,7 +2,10 @@ package cz.vse.hrouda_adventura_grafika.main;
 
 import cz.vse.hrouda_adventura_grafika.logika.Hra;
 import cz.vse.hrouda_adventura_grafika.logika.IHra;
+import cz.vse.hrouda_adventura_grafika.logika.Prostor;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,6 +14,8 @@ import java.util.Optional;
 
 public class HomeController {
 
+    @FXML
+    private ListView panelVychodu;
     @FXML
     private Button tlacitkoOdesli;
 
@@ -22,10 +27,19 @@ public class HomeController {
 
     private IHra hra = new Hra();
 
+    private ObservableList<Prostor> seznamVychodu = FXCollections.observableArrayList();
+
     @FXML
     private void initialize() {
         vystup.appendText(hra.vratUvitani()+"\n\n");
         Platform.runLater(() -> vstup.requestFocus());
+        panelVychodu.setItems(seznamVychodu);
+    }
+
+    @FXML
+    private void aktualizujSeznamVychodu() {
+        seznamVychodu.clear();
+        seznamVychodu.addAll(hra.getHerniPlan().getAktualniProstor().getVychody());
     }
 
     @FXML

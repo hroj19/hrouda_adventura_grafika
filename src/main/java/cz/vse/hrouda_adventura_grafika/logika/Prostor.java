@@ -265,4 +265,9 @@ public class Prostor {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        return getNazev();
+    }
 }
