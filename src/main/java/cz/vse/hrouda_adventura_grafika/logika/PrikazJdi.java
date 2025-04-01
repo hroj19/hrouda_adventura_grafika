@@ -7,8 +7,8 @@ package cz.vse.hrouda_adventura_grafika.logika;
  *@author     Jarmila Pavlickova, Luboš Pavlíček
  *@version    pro školní rok 2016/2017
  */
-class PrikazJdi implements IPrikaz {
-    private static final String NAZEV = "jdi";
+public class PrikazJdi implements IPrikaz {
+    public static final String NAZEV = "jdi";
     private HerniPlan plan;
 
     /**
