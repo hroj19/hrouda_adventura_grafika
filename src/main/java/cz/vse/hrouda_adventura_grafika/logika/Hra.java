@@ -1,5 +1,14 @@
 package cz.vse.hrouda_adventura_grafika.logika;
 
+import cz.vse.hrouda_adventura_grafika.main.Pozorovatel;
+import cz.vse.hrouda_adventura_grafika.main.PredmetPozorovani;
+import cz.vse.hrouda_adventura_grafika.main.ZmenaHry;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  *  Třída Hra - třída představující logiku adventury.
  *
@@ -12,10 +21,11 @@ package cz.vse.hrouda_adventura_grafika.logika;
  *@version    pro školní rok 2016/2017
  */
 
-public class Hra implements IHra {
+public class Hra implements IHra, PredmetPozorovani {
     private SeznamPrikazu platnePrikazy;    // obsahuje seznam přípustných příkazů
     private HerniPlan herniPlan;
     private boolean konecHry = false;
+    private Map<ZmenaHry, Set<Pozorovatel>> seznamPozorovatelu = new HashMap<>();
 
     /**
      *  Vytváří hru a inicializuje místnosti (prostřednictvím třídy HerniPlan) a seznam platných příkazů.
@@ -31,6 +41,9 @@ public class Hra implements IHra {
         platnePrikazy.vlozPrikaz(new PrikazDat(herniPlan));
         platnePrikazy.vlozPrikaz(new PrikazInventar(herniPlan));
         platnePrikazy.vlozPrikaz(new PrikazKod(herniPlan, this));
+        for(ZmenaHry zmenaHry : ZmenaHry.values()) {
+            seznamPozorovatelu.put(zmenaHry, new HashSet<>());
+        }
     }
 
     /**
@@ -49,7 +62,7 @@ public class Hra implements IHra {
      *  Vrátí závěrečnou zprávu pro hráče.
      */
     public String vratEpilog() {
-        return "Dík, že jste si zahráli.  Ahoj.";
+        return "Dík, že jste si zahráli.  Ahoj. \n";
     }
 
     /**
@@ -94,6 +107,7 @@ public class Hra implements IHra {
      */
     void setKonecHry(boolean konecHry) {
         this.konecHry = konecHry;
+        upozorniPozorovatele(ZmenaHry.KONEC_HRY);
     }
 
     /**
@@ -106,4 +120,14 @@ public class Hra implements IHra {
         return herniPlan;
     }
 
+    @Override
+    public void registruj(ZmenaHry zmenaHry, Pozorovatel pozorovatel) {
+        seznamPozorovatelu.get(zmenaHry).add(pozorovatel);
+    }
+
+    private void upozorniPozorovatele(ZmenaHry zmenaHry) {
+        for(Pozorovatel pozorovatel : seznamPozorovatelu.get(zmenaHry)) {
+            pozorovatel.aktualizuj();
+        }
+    }
 }

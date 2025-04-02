@@ -3,6 +3,7 @@ package cz.vse.hrouda_adventura_grafika.logika;
 
 import cz.vse.hrouda_adventura_grafika.main.Pozorovatel;
 import cz.vse.hrouda_adventura_grafika.main.PredmetPozorovani;
+import cz.vse.hrouda_adventura_grafika.main.ZmenaHry;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,7 +26,7 @@ public class HerniPlan implements PredmetPozorovani {
     private Prostor aktualniProstor;
     private Inventar inventar = new Inventar();
     private Map<String, Prostor> prostory = new HashMap<>();
-    private Set<Pozorovatel> seznamPozorovatelu = new HashSet<>();
+    private Map<ZmenaHry, Set<Pozorovatel>> seznamPozorovatelu = new HashMap<>();
 
     /**
      *  Konstruktor který vytváří jednotlivé prostory a propojuje je pomocí východů.
@@ -33,7 +34,9 @@ public class HerniPlan implements PredmetPozorovani {
      */
     public HerniPlan() {
         zalozProstoryHry();
-
+        for(ZmenaHry zmenaHry : ZmenaHry.values()) {
+            seznamPozorovatelu.put(zmenaHry, new HashSet<>());
+        }
     }
     /**
      *  Vytváří jednotlivé prostory a propojuje je pomocí východů.
@@ -103,11 +106,11 @@ public class HerniPlan implements PredmetPozorovani {
      */
     public void setAktualniProstor(Prostor prostor) {
         aktualniProstor = prostor;
-        upozorniPozorovatele();
+        upozorniPozorovatele(ZmenaHry.ZMENA_MISTNOSTI);
     }
 
-    private void upozorniPozorovatele() {
-        for(Pozorovatel pozorovatel : seznamPozorovatelu) {
+    private void upozorniPozorovatele(ZmenaHry zmenaHry) {
+        for(Pozorovatel pozorovatel : seznamPozorovatelu.get(zmenaHry)) {
             pozorovatel.aktualizuj();
         }
     }
@@ -117,7 +120,7 @@ public class HerniPlan implements PredmetPozorovani {
     }
 
     @Override
-    public void registruj(Pozorovatel pozorovatel) {
-        seznamPozorovatelu.add(pozorovatel);
+    public void registruj(ZmenaHry zmenaHry, Pozorovatel pozorovatel) {
+        seznamPozorovatelu.get(zmenaHry).add(pozorovatel);
     }
 }
