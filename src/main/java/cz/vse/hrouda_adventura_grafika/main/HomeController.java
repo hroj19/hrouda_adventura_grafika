@@ -10,16 +10,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class HomeController{
+public class HomeController {
 
     @FXML
     private ImageView hrac;
@@ -43,7 +46,7 @@ public class HomeController{
 
     @FXML
     private void initialize() {
-        vystup.appendText(hra.vratUvitani()+"\n\n");
+        vystup.appendText(hra.vratUvitani() + "\n\n");
         Platform.runLater(() -> vstup.requestFocus());
         panelVychodu.setItems(seznamVychodu);
         hra.getHerniPlan().registruj(ZmenaHry.ZMENA_MISTNOSTI, () -> {
@@ -57,11 +60,11 @@ public class HomeController{
     }
 
     private void vlozSouradnice() {
-        souradniceProstoru.put("aula", new Point2D(84,22));
-        souradniceProstoru.put("chodba", new Point2D(84,120));
-        souradniceProstoru.put("ucebna", new Point2D(241,120));
-        souradniceProstoru.put("hlavak", new Point2D(84,218));
-        souradniceProstoru.put("chodov", new Point2D(241,286));
+        souradniceProstoru.put("aula", new Point2D(84, 22));
+        souradniceProstoru.put("chodba", new Point2D(84, 120));
+        souradniceProstoru.put("ucebna", new Point2D(241, 120));
+        souradniceProstoru.put("hlavak", new Point2D(84, 218));
+        souradniceProstoru.put("chodov", new Point2D(241, 286));
     }
 
     @FXML
@@ -84,9 +87,9 @@ public class HomeController{
     }
 
     private void zpracujPrikaz(String prikaz) {
-        vystup.appendText("> "+ prikaz +"\n");
+        vystup.appendText("> " + prikaz + "\n");
         String vysledek = hra.zpracujPrikaz(prikaz);
-        vystup.appendText(vysledek+"\n\n");
+        vystup.appendText(vysledek + "\n\n");
     }
 
     public void ukoncitHru(ActionEvent actionEvent) {
@@ -98,7 +101,7 @@ public class HomeController{
     }
 
     private void aktualizujKonecHry() {
-        if(hra.konecHry()) {
+        if (hra.konecHry()) {
             vystup.appendText(hra.vratEpilog());
         }
         vstup.setDisable(hra.konecHry());
@@ -112,5 +115,14 @@ public class HomeController{
         if (cil == null) return;
         String prikaz = PrikazJdi.NAZEV + " " + cil.getNazev();
         zpracujPrikaz(prikaz);
+    }
+
+    public void napovedaKlik(ActionEvent actionEvent) {
+        Stage napovedaStage = new Stage();
+        WebView wv = new WebView();
+        Scene napovedaScena = new Scene(wv);
+        napovedaStage.setScene(napovedaScena);
+        napovedaStage.show();
+        wv.getEngine().load(getClass().getResource("napoveda.html").toExternalForm());
     }
 }
