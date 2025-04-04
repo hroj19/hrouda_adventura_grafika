@@ -80,7 +80,7 @@
                               <Image url="@herni_plan.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="52.0" fitWidth="100.0" layoutX="84.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="hrac" fitHeight="52.0" fitWidth="100.0" layoutX="84.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@hráč.jpg" />
                            </image>
