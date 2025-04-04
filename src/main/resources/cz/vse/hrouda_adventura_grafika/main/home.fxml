@@ -77,12 +77,12 @@
                      <children>
                         <ImageView fitHeight="358.0" fitWidth="438.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@herni_plan.jpg" />
+                              <Image url="@herni_plan.png" />
                            </image>
                         </ImageView>
                         <ImageView fx:id="hrac" fitHeight="52.0" fitWidth="100.0" layoutX="84.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@hráč.jpg" />
+                              <Image url="@hráč.png" />
                            </image>
                         </ImageView>
                      </children>
