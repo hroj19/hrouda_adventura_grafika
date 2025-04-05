@@ -47,7 +47,7 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#ukoncitHru" text="Ukončit" />
               <MenuItem onAction="#napovedaKlik" text="Nápověda" />
-              <MenuItem onAction="#aktualizujSeznamVeciVProstoru" text="Aktualizuj" />
+              <MenuItem onAction="#aktualizujSeznamPostavVProstoru" text="Aktualizuj" />
               <MenuItem text="Nová hra" />
             </items>
           </Menu>
@@ -104,7 +104,7 @@
                      <content>
                         <HBox>
                            <children>
-                              <ListView />
+                              <ListView fx:id="panelPostavyVProstoru" onMouseClicked="#klikPanelPostavyVProstoru"/>
                            </children>
                         </HBox>
                      </content>

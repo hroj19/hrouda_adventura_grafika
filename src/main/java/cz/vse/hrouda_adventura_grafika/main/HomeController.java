@@ -22,6 +22,8 @@ import java.util.Optional;
 public class HomeController {
 
     @FXML
+    private ListView<Postava> panelPostavyVProstoru;
+    @FXML
     private ListView<Vec> panelVeciVProstoru;
     @FXML
     private ImageView hrac;
@@ -43,6 +45,8 @@ public class HomeController {
 
     private ObservableList<Vec> seznamVeciVProstoru = FXCollections.observableArrayList();
 
+    private ObservableList<Postava> seznamPostavVProstoru = FXCollections.observableArrayList();
+
     private Map<String, Point2D> souradniceProstoru = new HashMap<>();
 
     @FXML
@@ -51,16 +55,27 @@ public class HomeController {
         Platform.runLater(() -> vstup.requestFocus());
         panelVychodu.setItems(seznamVychodu);
         panelVeciVProstoru.setItems(seznamVeciVProstoru);
+        panelPostavyVProstoru.setItems(seznamPostavVProstoru);
         hra.getHerniPlan().registruj(ZmenaHry.ZMENA_MISTNOSTI, () -> {
             aktualizujSeznamVychodu();
             aktualizujPolohuHrace();
             aktualizujSeznamVeciVProstoru();
+            aktualizujSeznamPostavVProstoru();
         });
         hra.registruj(ZmenaHry.KONEC_HRY, () -> aktualizujKonecHry());
         aktualizujSeznamVychodu();
+        aktualizujSeznamVeciVProstoru();
+        aktualizujSeznamPostavVProstoru();
         vlozSouradnice();
         panelVychodu.setCellFactory(param -> new ListCellProstor());
         panelVeciVProstoru.setCellFactory(param -> new ListCellVec());
+        panelPostavyVProstoru.setCellFactory(param -> new ListCellPostava());
+    }
+
+    @FXML
+    private void aktualizujSeznamPostavVProstoru() {
+        seznamPostavVProstoru.clear();
+        seznamPostavVProstoru.addAll(hra.getHerniPlan().getAktualniProstor().getPostavy());
     }
 
     @FXML
@@ -118,6 +133,8 @@ public class HomeController {
         vstup.setDisable(hra.konecHry());
         tlacitkoOdesli.setDisable(hra.konecHry());
         panelVychodu.setDisable(hra.konecHry());
+        panelPostavyVProstoru.setDisable(hra.konecHry());
+        panelVeciVProstoru.setDisable(hra.konecHry());
     }
 
     @FXML
@@ -144,5 +161,14 @@ public class HomeController {
         String prikaz = PrikazSeber.NAZEV + " " + vecKSebrani.getNazev();
         zpracujPrikaz(prikaz);
         aktualizujSeznamVeciVProstoru();
+    }
+
+    @FXML
+    private void klikPanelPostavyVProstoru(MouseEvent mouseEvent) {
+        Postava postavaVMistnosti = panelPostavyVProstoru.getSelectionModel().getSelectedItem();
+        if (postavaVMistnosti == null) return;
+        String prikaz = PrikazMluvit.NAZEV + " " + postavaVMistnosti.getNazev();
+        zpracujPrikaz(prikaz);
+        aktualizujSeznamPostavVProstoru();
     }
 }

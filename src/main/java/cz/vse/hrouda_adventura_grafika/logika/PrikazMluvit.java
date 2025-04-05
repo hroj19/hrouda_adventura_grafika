@@ -10,6 +10,7 @@ public class PrikazMluvit extends Prikaz{
     public PrikazMluvit(HerniPlan plan) {
         super("mluvit", plan );
     }
+    public static final String NAZEV = "mluvit";
 
     /**
      * metoda promluvi na danou postavu
