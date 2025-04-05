@@ -20,7 +20,7 @@ public class Prostor {
     private String nazev;
     private String popis;
     private Set<Prostor> vychody;   // obsahuje sousední místnosti
-    private Set<Vec> veci = new HashSet<>();
+    public Set<Vec> veci = new HashSet<>();
     private Set<Postava> postavy = new HashSet<>();
 
     /**

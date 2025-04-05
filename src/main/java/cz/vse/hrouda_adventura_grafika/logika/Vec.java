@@ -22,4 +22,9 @@ public class Vec {
     public boolean getLzeVzit() {
         return lzeVzit;
     }
+
+    @Override
+    public String toString() {
+        return getNazev();
+    }
 }

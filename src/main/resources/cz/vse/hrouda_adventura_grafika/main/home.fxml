@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vse.hrouda_adventura_grafika.main.HomeController">
   <columnConstraints>
@@ -25,11 +26,12 @@
   <rowConstraints>
     <RowConstraints vgrow="NEVER" />
       <RowConstraints vgrow="NEVER" />
+      <RowConstraints prefHeight="100.0" valignment="TOP" vgrow="NEVER" />
     <RowConstraints prefHeight="1.0" vgrow="SOMETIMES" />
     <RowConstraints vgrow="NEVER" />
   </rowConstraints>
    <children>
-      <SplitPane dividerPositions="0.3" GridPane.rowIndex="2">
+      <SplitPane dividerPositions="0.3" GridPane.rowIndex="3">
          <items>
             <ListView fx:id="panelVychodu" onMouseClicked="#klikPanelVychodu" />
             <TextArea fx:id="vystup" editable="false">
@@ -45,11 +47,13 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#ukoncitHru" text="Ukončit" />
               <MenuItem onAction="#napovedaKlik" text="Nápověda" />
+              <MenuItem onAction="#aktualizujSeznamVeciVProstoru" text="Aktualizuj" />
+              <MenuItem text="Nová hra" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
-      <HBox spacing="10.0" GridPane.rowIndex="3">
+      <HBox spacing="10.0" GridPane.rowIndex="4">
          <children>
             <TextField fx:id="vstup" onAction="#odesliVstup" HBox.hgrow="ALWAYS">
                <padding>
@@ -89,6 +93,15 @@
                   </Pane>
                </children>
             </HBox>
+         </content>
+      </TitledPane>
+      <TitledPane text="Inventář" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
+         <content>
+            <VBox>
+               <children>
+                  <ListView fx:id="panelVeciInventar" />
+               </children>
+            </VBox>
          </content>
       </TitledPane>
    </children>

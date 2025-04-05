@@ -1,9 +1,6 @@
 package cz.vse.hrouda_adventura_grafika.main;
 
-import cz.vse.hrouda_adventura_grafika.logika.Hra;
-import cz.vse.hrouda_adventura_grafika.logika.IHra;
-import cz.vse.hrouda_adventura_grafika.logika.PrikazJdi;
-import cz.vse.hrouda_adventura_grafika.logika.Prostor;
+import cz.vse.hrouda_adventura_grafika.logika.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +22,8 @@ import java.util.Optional;
 public class HomeController {
 
     @FXML
+    private ListView panelVeciInventar;
+    @FXML
     private ImageView hrac;
     @FXML
     private ListView<Prostor> panelVychodu;
@@ -42,6 +41,8 @@ public class HomeController {
 
     private ObservableList<Prostor> seznamVychodu = FXCollections.observableArrayList();
 
+    private ObservableList<Vec> seznamVeciVProstoru = FXCollections.observableArrayList();
+
     private Map<String, Point2D> souradniceProstoru = new HashMap<>();
 
     @FXML
@@ -49,6 +50,7 @@ public class HomeController {
         vystup.appendText(hra.vratUvitani() + "\n\n");
         Platform.runLater(() -> vstup.requestFocus());
         panelVychodu.setItems(seznamVychodu);
+        panelVeciInventar.setItems(seznamVeciVProstoru);
         hra.getHerniPlan().registruj(ZmenaHry.ZMENA_MISTNOSTI, () -> {
             aktualizujSeznamVychodu();
             aktualizujPolohuHrace();
@@ -57,6 +59,13 @@ public class HomeController {
         aktualizujSeznamVychodu();
         vlozSouradnice();
         panelVychodu.setCellFactory(param -> new ListCellProstor());
+    }
+
+    @FXML
+    private void aktualizujSeznamVeciVProstoru() {
+        seznamVeciVProstoru.clear();
+        Prostor aktualniProstor = hra.getHerniPlan().getAktualniProstor();
+        seznamVeciVProstoru.addAll(aktualniProstor.veci);
     }
 
     private void vlozSouradnice() {
