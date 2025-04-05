@@ -23,8 +23,4 @@ public class Vec {
         return lzeVzit;
     }
 
-    @Override
-    public String toString() {
-        return getNazev();
-    }
 }

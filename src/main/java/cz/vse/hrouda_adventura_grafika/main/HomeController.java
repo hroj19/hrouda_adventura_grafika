@@ -60,6 +60,7 @@ public class HomeController {
         aktualizujSeznamVychodu();
         vlozSouradnice();
         panelVychodu.setCellFactory(param -> new ListCellProstor());
+        panelVeciVProstoru.setCellFactory(param -> new ListCellVec());
     }
 
     @FXML
@@ -142,5 +143,6 @@ public class HomeController {
         if (vecKSebrani == null) return;
         String prikaz = PrikazSeber.NAZEV + " " + vecKSebrani.getNazev();
         zpracujPrikaz(prikaz);
+        aktualizujSeznamVeciVProstoru();
     }
 }
