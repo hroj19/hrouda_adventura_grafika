@@ -22,7 +22,7 @@ import java.util.Optional;
 public class HomeController {
 
     @FXML
-    private ListView panelVeciInventar;
+    private ListView<Vec> panelVeciVProstoru;
     @FXML
     private ImageView hrac;
     @FXML
@@ -50,10 +50,11 @@ public class HomeController {
         vystup.appendText(hra.vratUvitani() + "\n\n");
         Platform.runLater(() -> vstup.requestFocus());
         panelVychodu.setItems(seznamVychodu);
-        panelVeciInventar.setItems(seznamVeciVProstoru);
+        panelVeciVProstoru.setItems(seznamVeciVProstoru);
         hra.getHerniPlan().registruj(ZmenaHry.ZMENA_MISTNOSTI, () -> {
             aktualizujSeznamVychodu();
             aktualizujPolohuHrace();
+            aktualizujSeznamVeciVProstoru();
         });
         hra.registruj(ZmenaHry.KONEC_HRY, () -> aktualizujKonecHry());
         aktualizujSeznamVychodu();
@@ -133,5 +134,13 @@ public class HomeController {
         napovedaStage.setScene(napovedaScena);
         napovedaStage.show();
         wv.getEngine().load(getClass().getResource("napoveda.html").toExternalForm());
+    }
+
+    @FXML
+    private void klikPanelVeciVProstoru(MouseEvent mouseEvent) {
+        Vec vecKSebrani = panelVeciVProstoru.getSelectionModel().getSelectedItem();
+        if (vecKSebrani == null) return;
+        String prikaz = PrikazSeber.NAZEV + " " + vecKSebrani.getNazev();
+        zpracujPrikaz(prikaz);
     }
 }

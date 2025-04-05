@@ -4,6 +4,7 @@ public class PrikazSeber extends Prikaz {
     public PrikazSeber(HerniPlan plan) {
         super("seber", plan);
     }
+    public static final String NAZEV = "seber";
 
     /**
      * sebere predmet a vlozi ho do inventare
@@ -28,7 +29,7 @@ public class PrikazSeber extends Prikaz {
 
                 return "Vložil jsi do inventáře: " + vec.getNazev() + ".";
             } else {
-                return "Tohle nelze vzít, můžeš to ale zkusit koupit nebo ukrást";
+                return "Tohle nelze vzít.";
             }
 
         }

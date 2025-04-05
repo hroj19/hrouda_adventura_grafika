@@ -77,6 +77,15 @@
          <content>
             <HBox alignment="TOP_CENTER">
                <children>
+                  <TitledPane prefHeight="358.0" prefWidth="180.0" text="Věci v prostoru">
+                     <content>
+                        <HBox>
+                           <children>
+                              <ListView fx:id="panelVeciVProstoru" onMouseClicked="#klikPanelVeciVProstoru"/>
+                           </children>
+                        </HBox>
+                     </content>
+                  </TitledPane>
                   <Pane>
                      <children>
                         <ImageView fitHeight="358.0" fitWidth="438.0" pickOnBounds="true" preserveRatio="true">
@@ -91,6 +100,15 @@
                         </ImageView>
                      </children>
                   </Pane>
+                  <TitledPane prefHeight="358.0" prefWidth="180.0" text="Postavy v prostoru">
+                     <content>
+                        <HBox>
+                           <children>
+                              <ListView />
+                           </children>
+                        </HBox>
+                     </content>
+                  </TitledPane>
                </children>
             </HBox>
          </content>
