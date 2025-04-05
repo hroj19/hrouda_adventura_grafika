@@ -6,6 +6,7 @@ public class PrikazDat extends Prikaz {
     public PrikazDat(HerniPlan plan) {
         super("dat", plan);
     }
+    public static final String NAZEV = "dat";
 
     /**
      * provede vymenu predmetu

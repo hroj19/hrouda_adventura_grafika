@@ -22,6 +22,8 @@ import java.util.Optional;
 public class HomeController {
 
     @FXML
+    private ListView<Vec> panelVeciInventar;
+    @FXML
     private ListView<Postava> panelPostavyVProstoru;
     @FXML
     private ListView<Vec> panelVeciVProstoru;
@@ -47,6 +49,8 @@ public class HomeController {
 
     private ObservableList<Postava> seznamPostavVProstoru = FXCollections.observableArrayList();
 
+    private ObservableList<Vec> seznamVeciInventar = FXCollections.observableArrayList();
+
     private Map<String, Point2D> souradniceProstoru = new HashMap<>();
 
     @FXML
@@ -56,6 +60,7 @@ public class HomeController {
         panelVychodu.setItems(seznamVychodu);
         panelVeciVProstoru.setItems(seznamVeciVProstoru);
         panelPostavyVProstoru.setItems(seznamPostavVProstoru);
+        panelVeciInventar.setItems(seznamVeciInventar);
         hra.getHerniPlan().registruj(ZmenaHry.ZMENA_MISTNOSTI, () -> {
             aktualizujSeznamVychodu();
             aktualizujPolohuHrace();
@@ -63,13 +68,23 @@ public class HomeController {
             aktualizujSeznamPostavVProstoru();
         });
         hra.registruj(ZmenaHry.KONEC_HRY, () -> aktualizujKonecHry());
+        hra.getHerniPlan().registruj(ZmenaHry.ZMENA_INVENTARE, this::aktualizujSeznamVeciInventar);
         aktualizujSeznamVychodu();
         aktualizujSeznamVeciVProstoru();
+        aktualizujSeznamVeciInventar();
         aktualizujSeznamPostavVProstoru();
         vlozSouradnice();
         panelVychodu.setCellFactory(param -> new ListCellProstor());
         panelVeciVProstoru.setCellFactory(param -> new ListCellVec());
         panelPostavyVProstoru.setCellFactory(param -> new ListCellPostava());
+        panelVeciInventar.setCellFactory(param -> new ListCellInventar());
+    }
+
+    @FXML
+    private void aktualizujSeznamVeciInventar() {
+        seznamVeciInventar.clear();
+        Inventar inventar = hra.getHerniPlan().getInventar();
+        seznamVeciInventar.addAll(inventar.getVeci());
     }
 
     @FXML
@@ -135,6 +150,7 @@ public class HomeController {
         panelVychodu.setDisable(hra.konecHry());
         panelPostavyVProstoru.setDisable(hra.konecHry());
         panelVeciVProstoru.setDisable(hra.konecHry());
+        panelVeciInventar.setDisable(hra.konecHry());
     }
 
     @FXML
@@ -161,6 +177,7 @@ public class HomeController {
         String prikaz = PrikazSeber.NAZEV + " " + vecKSebrani.getNazev();
         zpracujPrikaz(prikaz);
         aktualizujSeznamVeciVProstoru();
+        aktualizujSeznamVeciInventar();
     }
 
     @FXML
@@ -170,5 +187,46 @@ public class HomeController {
         String prikaz = PrikazMluvit.NAZEV + " " + postavaVMistnosti.getNazev();
         zpracujPrikaz(prikaz);
         aktualizujSeznamPostavVProstoru();
+    }
+
+    public void klikPanelVeciInventar(MouseEvent mouseEvent) {
+        Vec vecKPredani = panelVeciInventar.getSelectionModel().getSelectedItem();
+        if (vecKPredani == null) return;
+        String prikaz = PrikazDat.NAZEV + " " + vecKPredani.getNazev() + " spoluzak";
+        zpracujPrikaz(prikaz);
+        aktualizujSeznamVeciInventar();
+    }
+
+    public void novaHraKlik(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Opravdu chcete začít novou hru?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            hra = new Hra();
+            vystup.clear();
+            vystup.appendText(hra.vratUvitani() + "\n");
+            seznamVychodu.clear();
+            seznamVeciInventar.clear();
+            seznamVeciVProstoru.clear();
+            seznamPostavVProstoru.clear();
+            hra.getHerniPlan().registruj(ZmenaHry.ZMENA_MISTNOSTI, () -> {
+                aktualizujSeznamVychodu();
+                aktualizujPolohuHrace();
+                aktualizujSeznamVeciVProstoru();
+                aktualizujSeznamPostavVProstoru();
+                aktualizujSeznamVeciInventar();
+            });
+            hra.registruj(ZmenaHry.KONEC_HRY, this::aktualizujKonecHry);
+            hra.getHerniPlan().registruj(ZmenaHry.ZMENA_INVENTARE, this::aktualizujSeznamVeciInventar);
+
+            aktualizujSeznamVychodu();
+            aktualizujPolohuHrace();
+            aktualizujSeznamVeciVProstoru();
+            aktualizujSeznamPostavVProstoru();
+            aktualizujSeznamVeciInventar();
+
+            vstup.setDisable(false);
+            tlacitkoOdesli.setDisable(false);
+            panelVychodu.setDisable(false);
+        }
     }
 }

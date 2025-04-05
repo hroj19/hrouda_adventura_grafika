@@ -1,9 +1,6 @@
 package cz.vse.hrouda_adventura_grafika.logika;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Inventar {
     private Set<Vec> veci = new HashSet<>();
@@ -61,5 +58,9 @@ public class Inventar {
             return true;
         }
         return false;
+    }
+
+    public Set<Vec> getVeci() {
+        return veci;
     }
 }

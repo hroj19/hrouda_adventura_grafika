@@ -45,10 +45,13 @@
         <menus>
           <Menu mnemonicParsing="false" text="Hra">
             <items>
+              <MenuItem onAction="#novaHraKlik" text="Nová hra" />
               <MenuItem mnemonicParsing="false" onAction="#ukoncitHru" text="Ukončit" />
-              <MenuItem onAction="#napovedaKlik" text="Nápověda" />
-              <MenuItem onAction="#aktualizujSeznamPostavVProstoru" text="Aktualizuj" />
-              <MenuItem text="Nová hra" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Nápověda">
+            <items>
+              <MenuItem onAction="#napovedaKlik" text="Zobraz Nápovědu" />
             </items>
           </Menu>
         </menus>
@@ -117,7 +120,7 @@
          <content>
             <VBox>
                <children>
-                  <ListView fx:id="panelVeciInventar" />
+                  <ListView fx:id="panelVeciInventar" onMouseClicked="#klikPanelVeciInventar" orientation="HORIZONTAL"/>
                </children>
             </VBox>
          </content>
